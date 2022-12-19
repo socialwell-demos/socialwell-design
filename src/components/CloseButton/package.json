@@ -1,0 +1,28 @@
+{
+  "name": "@socialwell-design/close-button",
+  "version": "1.0.2",
+  "description": "Close Button component from socialwell ui library",
+  "main": "dist/cjs/components/CloseButton/src/index.js",
+  "module": "dist/esm/components/CloseButton/src/index.js",
+  "types": "dist/types/components/CloseButton/src/index.d.ts",
+  "files": [
+    "dist",
+    "src"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "rimraf dist && npm run build:esm && npm run build:cjs",
+    "build:esm": "tsc --outDir dist/esm",
+    "build:cjs": "tsc --module CommonJS --outDir dist/cjs",
+    "prepack": "clean-package",
+    "postpack": "clean-package restore"
+  },
+  "keywords": [],
+  "author": "Socialwell",
+  "license": "MIT",
+  "dependencies": {
+    "react": "^18.2.0"
+  }
+}

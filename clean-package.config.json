@@ -1,0 +1,9 @@
+{
+  "indent": 2,
+  "remove": ["eslintConfig", "husky", "devDependencies"],
+  "replace": {
+    "scripts": {
+      "postpack": "clean-package restore"
+    }
+  }
+}

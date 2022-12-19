@@ -1,0 +1,31 @@
+{
+  "name": "@socialwell-design/next-link",
+  "version": "1.0.0",
+  "description": "Link component for nextjs from socialwell ui library",
+  "main": "dist/cjs/index.js",
+  "module": "dist/esm/index.js",
+  "types": "dist/types/index.d.ts",
+  "files": [
+    "dist",
+    "src"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "rimraf dist && npm run build:esm && npm run build:cjs",
+    "build:esm": "tsc --outDir dist/esm",
+    "build:cjs": "tsc --module CommonJS --outDir dist/cjs",
+    "prepack": "clean-package",
+    "postpack": "clean-package restore"
+  },
+  "keywords": [],
+  "author": "Socialwell",
+  "license": "MIT",
+  "dependencies": {
+    "react": "^18.2.0"
+  },
+  "peerDependencies": {
+    "react": "^18.2.0"
+  }
+}
