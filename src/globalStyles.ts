@@ -1,6 +1,5 @@
 import { normalize } from "polished";
 import { createGlobalStyle } from "styled-components";
-import "react-quill/dist/quill.snow.css";
 
 export const GlobalStyles = createGlobalStyle`
 ${normalize()}
