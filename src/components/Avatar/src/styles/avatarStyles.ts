@@ -9,11 +9,11 @@ const getImageSize = function (size: string) {
   return "64px";
 };
 
-export const Image = styled.img<{ size: string }>`
+export const Image = styled.img<{ size: string; radius: string }>`
   box-sizing: border-box;
   width: ${(props) => getImageSize(props.size)};
   height: ${(props) => getImageSize(props.size)};
 
-  border-radius: 50%;
+  border-radius: ${(props) => props.radius};
   object-fit: cover;
 `;

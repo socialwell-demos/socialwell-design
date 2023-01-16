@@ -3,6 +3,7 @@ import React, {
   forwardRef,
   HTMLInputTypeAttribute,
   ReactNode,
+  useCallback,
   useEffect,
   useMemo,
   useRef,
@@ -119,6 +120,15 @@ export const FormControl = forwardRef<
 export type SelectOption = {
   label: string;
   value: string | number;
+  thumbnail?: string;
+  designation?: string;
+};
+
+export type SelectOptionWithUser = {
+  label: string;
+  value: string | number;
+  thumbnail?: string;
+  designation?: string;
 };
 
 type MultipleSelectProps = {
@@ -134,41 +144,64 @@ type SingleSelectProps = {
 };
 
 export type SelectFormControlProps = {
-  options: SelectOption[];
-  disabled?: boolean;
   label: string;
+  options: SelectOption[];
+  searchable?: boolean;
+  disabled?: boolean;
+  imageSize?: string;
+  themeHsl?: number;
+  themeHslSaturation?: string;
+  onClear?: () => void;
 } & (SingleSelectProps | MultipleSelectProps);
 
 export const SelectFormControl: React.FC<SelectFormControlProps> = ({
+  searchable = false,
   multiple,
   value,
   onChange,
+  onClear,
   options,
   disabled = false,
+  imageSize = "20px",
+  themeHsl = 200,
+  themeHslSaturation = "100%",
   label,
 }) => {
+  const [query, setQuery] = useState("");
   const [isOpen, setIsOpen] = useState(false);
   const [highlightedIndex, setHighlightedIndex] = useState(0);
   const containerRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   function clearOptions() {
+    if (disabled) return;
     multiple ? onChange([]) : onChange(undefined);
   }
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  function selectOption(option: SelectOption) {
-    if (multiple) {
-      if (value.includes(option)) {
-        onChange(value.filter((o) => o !== option));
-      } else {
-        onChange([...value, option]);
-      }
-    } else {
-      if (option !== value) onChange(option);
-    }
+  function clearSearchOptions() {
+    if (disabled) return;
+    multiple === false && onChange(undefined);
   }
 
+  const selectOptionCallback = useCallback(
+    (option: SelectOption) => {
+      if (disabled) return;
+
+      if (multiple) {
+        if (value.includes(option)) {
+          onChange(value.filter((o) => o !== option));
+        } else {
+          onChange([...value, option]);
+        }
+      } else {
+        if (option !== value) onChange(option);
+      }
+    },
+    [disabled, multiple, value, onChange],
+  );
+
   function isOptionSelected(option: SelectOption) {
+    if (disabled) return;
     return multiple ? value.includes(option) : option === value;
   }
 
@@ -177,16 +210,20 @@ export const SelectFormControl: React.FC<SelectFormControlProps> = ({
   }, [isOpen]);
 
   useEffect(() => {
+    const containerRefValue = containerRef.current;
+    const inputRefValue = inputRef.current;
     const handler = (e: KeyboardEvent) => {
-      if (e.target !== containerRef.current) return;
+      if (disabled) return;
+      if (e.target !== containerRefValue) return;
       switch (e.code) {
         case "Enter":
         case "Space":
           setIsOpen((prev) => !prev);
-          if (isOpen) selectOption(options[highlightedIndex]);
+          if (isOpen) selectOptionCallback(options[highlightedIndex]);
           break;
         case "ArrowUp":
         case "ArrowDown": {
+          e.preventDefault();
           if (!isOpen) {
             setIsOpen(true);
             break;
@@ -203,23 +240,39 @@ export const SelectFormControl: React.FC<SelectFormControlProps> = ({
           break;
       }
     };
-    containerRef.current?.addEventListener("keydown", handler);
+    const inputHandler = (e: KeyboardEvent) => {
+      if (disabled) return;
+      if (e.target !== inputRefValue) return;
+      switch (e.code) {
+        case "ArrowUp":
+        case "ArrowDown": {
+          e.preventDefault();
+          containerRefValue?.focus();
+          break;
+        }
+      }
+    };
+    containerRefValue?.addEventListener("keydown", handler);
+    inputRefValue?.addEventListener("keydown", inputHandler);
 
     return () => {
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-      containerRef.current?.removeEventListener("keydown", handler);
+      containerRefValue?.removeEventListener("keydown", handler);
+      inputRefValue?.removeEventListener("keydown", inputHandler);
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isOpen, highlightedIndex, options]);
+  }, [isOpen, highlightedIndex, options, disabled, selectOptionCallback]);
+
   return (
     <SelectWrapper>
       <div className="label">{label}</div>
       <SelectInputField
         ref={containerRef}
-        onBlur={() => setIsOpen(false)}
+        //   onBlur={() => setIsOpen(false)}
         onClick={() => setIsOpen((prev) => !prev)}
         tabIndex={0}
         disabled={disabled}
+        imageSize={imageSize}
+        saturation={themeHslSaturation}
+        themeHsl={themeHsl}
       >
         <span className="value">
           {multiple
@@ -229,7 +282,7 @@ export const SelectFormControl: React.FC<SelectFormControlProps> = ({
                   key={v.value}
                   onClick={(e) => {
                     e.stopPropagation();
-                    selectOption(v);
+                    selectOptionCallback(v);
                   }}
                   className="option-badge"
                 >
@@ -238,12 +291,24 @@ export const SelectFormControl: React.FC<SelectFormControlProps> = ({
                 </button>
               ))
             : value?.label}
+          {searchable && (
+            <input
+              type="text"
+              className="query-input"
+              ref={inputRef}
+              value={query}
+              onFocus={clearSearchOptions}
+              onChange={(e) => setQuery(e.target.value)}
+            />
+          )}
         </span>
         <button
           type="button"
           onClick={(e) => {
             e.stopPropagation();
             clearOptions();
+            setQuery("");
+            onClear && onClear();
           }}
           className="clear-btn"
         >
@@ -251,24 +316,46 @@ export const SelectFormControl: React.FC<SelectFormControlProps> = ({
         </button>
         <div className="divider"></div>
         <div className="caret"></div>
-        <ul className={`options ${isOpen ? "show" : ""}`}>
-          {options.map((option, index) => (
-            <li
-              onClick={(e) => {
-                e.stopPropagation();
-                selectOption(option);
-                setIsOpen(false);
-              }}
-              onMouseEnter={() => setHighlightedIndex(index)}
-              key={option.value}
-              className={`option ${
-                isOptionSelected(option) ? "selected" : ""
-              } ${index === highlightedIndex ? "highlighted" : ""}`}
-            >
-              {option.label}
-            </li>
-          ))}
-        </ul>
+        {!disabled && (
+          <ul className={`options ${isOpen ? "show" : ""}`}>
+            {options
+              .filter((value) =>
+                value.label.toLowerCase().includes(query.toLowerCase()),
+              )
+              .map((option, index) => (
+                <li
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    selectOptionCallback(option);
+                    setIsOpen(false);
+                    setQuery("");
+                  }}
+                  onMouseEnter={() => {
+                    setHighlightedIndex(index);
+                    inputRef.current?.blur();
+                    //   setIsOpen(true);
+                  }}
+                  key={option.value}
+                  className={`option ${
+                    isOptionSelected(option) ? "selected" : ""
+                  } ${index === highlightedIndex ? "highlighted" : ""}`}
+                >
+                  {option.thumbnail && (
+                    <img
+                      className="thumbnail"
+                      src={option.thumbnail}
+                      alt={option.label}
+                      aria-hidden="true"
+                    />
+                  )}
+                  {option.label}
+                  {option.designation && (
+                    <span className="designation">{option.designation}</span>
+                  )}
+                </li>
+              ))}
+          </ul>
+        )}
       </SelectInputField>
     </SelectWrapper>
   );

@@ -9,19 +9,20 @@ export const Button = styled.button`
   justify-content: center;
   align-items: center;
   border: none;
-  background: none;
+  background-color: transparent;
   border-radius: 6px;
+  transition: all 250ms ease;
 
   &:hover {
-    background: rgba(0, 0, 0, 0.06);
+    background-color: rgba(0, 0, 0, 0.06);
   }
 
   &:active {
-    background: rgba(0, 0, 0, 0.08);
+    background-color: rgba(0, 0, 0, 0.08);
   }
 
   &:disabled {
-    background: none;
+    background-color: none;
     opacity: 0.5;
   }
 `;

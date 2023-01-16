@@ -34,7 +34,7 @@ const theme = create({
 
   // Brand assets
   brandTitle: "SocialWell Storybook",
-  brandUrl: "https://www.socialwell.net",
+  brandUrl: "./",
   brandImage: "/socialwell-logo.png",
 });
 

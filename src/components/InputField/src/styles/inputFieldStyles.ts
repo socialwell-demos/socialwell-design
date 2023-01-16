@@ -103,6 +103,17 @@ export const SelectInputField = styled.div<{
     display: flex;
     gap: 0.5em;
     flex-wrap: wrap;
+    align-items: center;
+
+    .query-input {
+      flex: 1;
+      border: none;
+      outline: none;
+
+      &:disabled {
+        background-color: transparent;
+      }
+    }
 
     ${(props) =>
       props.disabled &&

@@ -1,6 +1,6 @@
 {
   "name": "@socialwell-design/checkbox",
-  "version": "1.1.0",
+  "version": "1.1.2",
   "description": "Checkbox component from socialwell ui library",
   "main": "dist/cjs/components/Button/src/index.js",
   "module": "dist/esm/components/Button/src/index.js",

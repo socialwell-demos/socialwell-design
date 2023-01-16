@@ -9,10 +9,10 @@ export const TagWrapper = styled.span`
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  padding: 8px 12px;
+  padding: 4px 8px;
   border-radius: 6px;
   font-weight: 500;
-  font-size: 16px;
+  font-size: 14px;
   line-height: 24px;
   background: #319795;
   color: #ffffff;

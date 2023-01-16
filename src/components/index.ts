@@ -1,6 +1,11 @@
 export { Alert, type AlertProps } from "./Alert/src";
 export { AlertDialog, type AlertDialogProps } from "./AlertDialog/src";
-export { Avatar, type AvatarProps } from "./Avatar/src";
+export {
+  Avatar,
+  DiceAvatar,
+  type AvatarProps,
+  type DiceAvatarProps,
+} from "./Avatar/src";
 export { Badge, type BadgeProps } from "./Badge/src";
 export { Button, type ButtonProps } from "./Button/src";
 export {
@@ -9,7 +14,7 @@ export {
   type CheckboxProps,
   type SwitchProps,
 } from "./Checkbox/src";
-export { CloseButton } from "./CloseButton/src";
+export { CloseButton, type CloseButtonProps } from "./CloseButton/src";
 export {
   FormControl,
   SelectFormControl,
@@ -33,4 +38,8 @@ export { ToolTips, type ToolTipsProps } from "./ToolTip/src";
 export { Typography, type TypographyProps } from "./Typography/src";
 export { FormContainer, type FormContainerProps } from "./FormContainer/src";
 export { FormHeader, type FormHeaderProps } from "./FormHeader/src";
+export {
+  LinkPreviewCard,
+  type LinkPreviewCardProps,
+} from "./LinkPreviewCard/src";
 export { Flex, type FlexProps } from "./FlexBox/src";

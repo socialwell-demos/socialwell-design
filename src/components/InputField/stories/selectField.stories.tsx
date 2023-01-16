@@ -1,5 +1,5 @@
-import { ComponentStory, ComponentMeta } from "@storybook/react";
-import React from "react";
+import { ComponentMeta, ComponentStory } from "@storybook/react";
+import React, { useState } from "react";
 import { SelectField } from "../src";
 export default {
   title: "Components/InputField",
@@ -24,26 +24,45 @@ const options = [
 ];
 
 const Template: ComponentStory<typeof SelectField> = (args) => {
-  return <SelectField {...args} />;
+  const [select, setSelect] = useState({ label: "Select", value: "" });
+  return (
+    <SelectField
+      value={select}
+      onChange={(o: any) => setSelect(o as never)}
+      options={options}
+      multiple={false}
+    />
+  );
+};
+
+const SearchTemplate: ComponentStory<typeof SelectField> = (args) => {
+  const [select, setSelect] = useState({ label: "Select", value: "" });
+  return (
+    <SelectField
+      value={select}
+      onChange={(o: any) => setSelect(o as never)}
+      options={options}
+      multiple={false}
+      searchable={true}
+    />
+  );
+};
+
+const MultiTemplate: ComponentStory<typeof SelectField> = (args) => {
+  const [select, setSelect] = useState([options[0]]);
+  return (
+    <SelectField
+      value={select}
+      onChange={(o: any) => setSelect(o as never)}
+      options={options}
+      multiple={true}
+      searchable={true}
+    />
+  );
 };
 
 export const SelectInput = Template.bind({});
 
-SelectInput.args = {
-  multiple: false,
-  value: { label: "First", value: 1 },
-  onChange: () => console.log("log"),
-  options: options,
-};
+export const SearchSelectInput = SearchTemplate.bind({});
 
-export const MultiSelectInput = Template.bind({});
-
-MultiSelectInput.args = {
-  multiple: true,
-  options: options,
-  value: [
-    { label: "First", value: 1 },
-    { label: "Third", value: 3 },
-  ],
-  onChange: () => console.log("log"),
-};
+export const MultiSelectInput = MultiTemplate.bind({});

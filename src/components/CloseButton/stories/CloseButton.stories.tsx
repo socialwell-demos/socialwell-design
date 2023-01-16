@@ -1,6 +1,7 @@
 import { ComponentStory, ComponentMeta } from "@storybook/react";
 import React from "react";
 import { CloseButton } from "../src";
+import InfoIcon from "./info";
 
 export default {
   title: "Components/CloseButton",
@@ -14,3 +15,8 @@ const Template: ComponentStory<typeof CloseButton> = (args) => (
 );
 
 export const CloseIconButton = Template.bind({});
+export const DifferentIconButton = Template.bind({});
+
+DifferentIconButton.args = {
+  icon: <InfoIcon />,
+};

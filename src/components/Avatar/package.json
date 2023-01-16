@@ -1,6 +1,6 @@
 {
   "name": "@socialwell-design/avatar",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Avatar component from socialwell ui library",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",

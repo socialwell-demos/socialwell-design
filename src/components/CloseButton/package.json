@@ -1,6 +1,6 @@
 {
   "name": "@socialwell-design/close-button",
-  "version": "1.0.2",
+  "version": "1.0.4",
   "description": "Close Button component from socialwell ui library",
   "main": "dist/cjs/components/CloseButton/src/index.js",
   "module": "dist/esm/components/CloseButton/src/index.js",
