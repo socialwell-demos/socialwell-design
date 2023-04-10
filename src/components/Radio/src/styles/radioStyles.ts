@@ -1,61 +1,43 @@
 import styled from "styled-components";
 
-enum RadioColors {
-  WHITE = "#FFF",
-  ACTIVE = "#3182CE",
-  HOVER_COLOR = "#2B6CB0",
-  BORDER_COLOR = "#E2E8F0",
-  DISABLED = "#E2E8F0",
-}
+export const Label = styled.label`
+  user-select: none;
+`;
 
-export const RadioField = styled.input`
-  box-sizing: border-box;
+export const Span = styled.svg<{ size: number }>`
+  display: inline-block;
+  width: ${(props) => props.size}px;
+  height: ${(props) => props.size}px;
+  background-color: #fff;
+  border: 2px solid #ddd;
+  margin-right: 4px;
+  border-radius: 100px;
+`;
 
-  -webkit-appearance: none;
-  appearance: none;
-  margin: 0;
-  width: 20px;
-  height: 20px;
-  border: 2px solid ${RadioColors.BORDER_COLOR};
-  border-radius: 50%;
-  background-color: ${RadioColors.WHITE};
-  display: grid;
-  place-items: center;
-  ::after {
-    content: "";
-    display: block;
-    border-radius: 50%;
-    width: 6px;
-    height: 6px;
-  }
-  :hover {
-    background-color: ${RadioColors.HOVER_COLOR};
-    ::after {
-      background-color: ${RadioColors.WHITE};
-    }
+export const RadioInput = styled.input<{ radioColor: string }>`
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  position: absolute;
+  white-space: nowrap;
+
+  &:checked + ${Span} {
+    border-color: ${(props) => props.radioColor};
+    background-color: ${(props) => props.radioColor};
   }
 
-  :checked {
-    background-color: ${RadioColors.ACTIVE};
-    ::after {
-      background-color: ${RadioColors.WHITE};
-    }
+  & + ${Span} circle {
+    stroke: none;
   }
 
-  :disabled {
-    cursor: not-allowed;
-    border: 2px solid ${RadioColors.DISABLED};
-    background-color: ${RadioColors.DISABLED};
-    :hover {
-      ::after {
-        background-color: none;
-      }
-    }
-    :checked {
-      background-color: ${RadioColors.DISABLED};
-      ::after {
-        background-color: #718096;
-      }
-    }
+  &:checked + ${Span} circle {
+    stroke: #fff;
+  }
+
+  &:disabled + ${Span} {
+    border-color: #e2e8f0;
+    background-color: #e2e8f0;
   }
 `;

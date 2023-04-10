@@ -1,6 +1,7 @@
 import styled from "styled-components";
 
 export const FormHeaderWrapper = styled.div`
+  width: 100%;
   margin-block: 24px;
   display: flex;
   flex-direction: column;

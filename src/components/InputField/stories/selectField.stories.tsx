@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { ComponentMeta, ComponentStory } from "@storybook/react";
 import React, { useState } from "react";
 import { SelectField } from "../src";
@@ -27,6 +28,7 @@ const Template: ComponentStory<typeof SelectField> = (args) => {
   const [select, setSelect] = useState({ label: "Select", value: "" });
   return (
     <SelectField
+      {...args}
       value={select}
       onChange={(o: any) => setSelect(o as never)}
       options={options}
@@ -39,6 +41,7 @@ const SearchTemplate: ComponentStory<typeof SelectField> = (args) => {
   const [select, setSelect] = useState({ label: "Select", value: "" });
   return (
     <SelectField
+      {...args}
       value={select}
       onChange={(o: any) => setSelect(o as never)}
       options={options}
@@ -52,6 +55,7 @@ const MultiTemplate: ComponentStory<typeof SelectField> = (args) => {
   const [select, setSelect] = useState([options[0]]);
   return (
     <SelectField
+      {...args}
       value={select}
       onChange={(o: any) => setSelect(o as never)}
       options={options}

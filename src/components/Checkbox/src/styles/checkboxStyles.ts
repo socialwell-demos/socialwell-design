@@ -2,6 +2,8 @@ import styled from "styled-components";
 
 export const Label = styled.label`
   user-select: none;
+  display: flex;
+  align-items: center;
 `;
 
 export const Span = styled.svg<{ size: number }>`

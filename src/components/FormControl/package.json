@@ -1,6 +1,6 @@
 {
   "name": "@socialwell-design/form-control",
-  "version": "1.1.2",
+  "version": "1.1.7",
   "description": "Form Control component from socialwell ui library",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",

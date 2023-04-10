@@ -1,26 +1,53 @@
-import React from "react";
-import { RadioField } from "./styles/radioStyles";
+import React, { useMemo } from "react";
+import { Label, RadioInput, Span } from "./styles/radioStyles";
 
 export interface RadioProps {
-  isChecked: boolean;
   disabled?: boolean;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  label?: string;
+  value?: string;
+  className?: string;
+  name?: string;
+  radioColor?: string;
+  size?: number;
+  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 export const Radio: React.FC<RadioProps> = ({
-  isChecked,
   onChange,
   disabled = false,
-  ...restProps
+  label = "default",
+  value,
+  className = "",
+  radioColor = "#3182ce",
+  size = 20,
+  name = "",
 }) => {
+  const randomLabel = useMemo(
+    () => `${label}-${Math.round(Math.random() * 9999)}`,
+    [label],
+  );
+
   return (
-    <>
-      <RadioField
+    <Label htmlFor={randomLabel} title={label}>
+      <RadioInput
         type="radio"
-        checked={isChecked}
+        id={randomLabel}
         onChange={onChange}
         disabled={disabled}
-        {...restProps}
+        className={className}
+        value={value}
+        name={name}
+        radioColor={radioColor}
       />
-    </>
+      <Span
+        size={size}
+        viewBox="0 0 24 24"
+        fill="none"
+        aria-hidden="true"
+        style={{ cursor: "pointer" }}
+      >
+        <circle cx="12" cy="12" r="5" fill="#fff" />
+      </Span>
+      {label}
+    </Label>
   );
 };

@@ -27,5 +27,5 @@ export const Textarea = Template.bind({});
 
 Textarea.args = {
   label: "description",
-  type: "textarea",
+  inputType: "textarea",
 };

@@ -19,7 +19,9 @@ export interface InputTextProps {
   min?: number;
   max?: number;
   readonly?: boolean;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  required?: boolean;
+  disabled?: boolean;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onBlur?: (e: React.FocusEvent<HTMLInputElement>) => void;
   onFocus?: (e: React.FocusEvent<HTMLInputElement>) => void;
 }
@@ -49,14 +51,16 @@ export const TextField = forwardRef<HTMLInputElement, InputTextProps>(
       min,
       max,
       hasError,
+      disabled = false,
       readonly = false,
-      ...restProps
+      required = false,
     } = props as any;
     return (
       <WithError>
         <InputWrapper inputSize={size} isInvalid={isInvalid}>
           {icon}
           <TextInput
+            required={required}
             ref={ref}
             readOnly={readonly}
             value={value}
@@ -68,7 +72,7 @@ export const TextField = forwardRef<HTMLInputElement, InputTextProps>(
             onBlur={onBlur}
             onFocus={onFocus}
             placeholder={placeholder}
-            {...restProps}
+            disabled={disabled}
           />
         </InputWrapper>
         {hasError}
@@ -84,6 +88,8 @@ export interface TextareaProps {
   placeholder?: string;
   hasError?: ReactNode;
   readonly?: boolean;
+  disabled?: boolean;
+  required?: boolean;
   ref?: any;
   onChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
   onBlur?: (e: React.FocusEvent<HTMLInputElement>) => void;
@@ -101,13 +107,13 @@ export const TextAreaField = forwardRef<HTMLTextAreaElement, TextareaProps>(
       onChange,
       onBlur,
       onFocus,
+      disabled = false,
       readonly = false,
-      ...restProps
+      required = false,
     } = props as any;
     return (
       <WithError>
         <TextAreaInputField
-          {...restProps}
           ref={ref}
           value={value}
           onChange={onChange}
@@ -117,6 +123,8 @@ export const TextAreaField = forwardRef<HTMLTextAreaElement, TextareaProps>(
           name={name}
           placeholder={placeholder}
           readOnly={readonly}
+          disabled={disabled}
+          required={required}
         ></TextAreaInputField>
         {hasError}
       </WithError>

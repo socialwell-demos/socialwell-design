@@ -12,8 +12,21 @@ export default {
 } as ComponentMeta<typeof Radio>;
 
 // More on component templates: https://storybook.js.org/docs/react/writing-stories/introduction#using-args
-const Template: ComponentStory<typeof Radio> = (args) => <Radio {...args} />;
+const Template: ComponentStory<typeof Radio> = (args) => {
+  return (
+    <>
+      <Radio {...args} label="radio 1" value="1" />
+      &nbsp;&nbsp;&nbsp;&nbsp;
+      <Radio {...args} label="radio 2" value="2" />
+    </>
+  );
+};
 
 export const RadioField = Template.bind({});
 
-RadioField.args = {};
+RadioField.args = {
+  name: "default",
+  // onChange: (e) => {
+  //   console.log(e.target.value);
+  // },
+};

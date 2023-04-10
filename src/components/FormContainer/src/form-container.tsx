@@ -10,6 +10,7 @@ export interface FormContainerProps {
   headerPaddingBlock?: string;
   rightSideContent?: React.ReactNode;
   handleClick?: () => void;
+  hideIcon?: boolean;
 }
 
 export const FormContainer: React.FC<FormContainerProps> = ({
@@ -19,6 +20,7 @@ export const FormContainer: React.FC<FormContainerProps> = ({
   headerPaddingInline = "24px",
   headerPaddingBlock = "16px",
   rightSideContent,
+  hideIcon = false,
   handleClick,
 }) => {
   return (
@@ -32,7 +34,7 @@ export const FormContainer: React.FC<FormContainerProps> = ({
         <div className="title">{title}</div>
         <div className="header__wrapper">
           {rightSideContent}
-          <ArrowLg reverse={isActive} />
+          {!hideIcon && <ArrowLg reverse={isActive} />}
         </div>
       </Header>
       <Form isActive={isActive}>{children}</Form>

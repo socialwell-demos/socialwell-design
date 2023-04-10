@@ -4,6 +4,7 @@ import {
   OutlineButton,
   SolidButton,
 } from "./styles/buttonStyles";
+import LoadingIcon from "./loading-icon";
 
 export interface CustomButtonProps {
   variant?: "custom";
@@ -30,6 +31,10 @@ export type ButtonProps = {
   rightIcon?: React.ReactNode;
   type: "submit" | "button" | "reset";
   onClick?: () => void;
+  loading?: boolean;
+  disabled?: boolean;
+  loadingIconColor?: string;
+  loadingIconSize?: string;
 } & (ColorButtonProps | CustomButtonProps);
 
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
@@ -47,6 +52,10 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       borderWidth = 0,
       paddingInline = 0,
       paddingBlock = 0,
+      disabled = false,
+      loading = false,
+      loadingIconColor = "#fff",
+      loadingIconSize = "36",
       ...restProps
     },
     ref,
@@ -57,12 +66,21 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
           size={size}
           type={type}
           ref={ref}
+          disabled={disabled || loading}
           onClick={onClick}
           {...restProps}
         >
-          {leftIcon}
-          {name}
-          {rightIcon}
+          {loading ? (
+            <>
+              <LoadingIcon size={loadingIconSize} color={loadingIconColor} />
+            </>
+          ) : (
+            <>
+              {leftIcon}
+              {name}
+              {rightIcon}
+            </>
+          )}
         </SolidButton>
       );
     }
@@ -72,12 +90,21 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
           size={size}
           type={type}
           ref={ref}
+          disabled={disabled || loading}
           onClick={onClick}
           {...restProps}
         >
-          {leftIcon}
-          {name}
-          {rightIcon}
+          {loading ? (
+            <>
+              <LoadingIcon size={loadingIconSize} color={loadingIconColor} />
+            </>
+          ) : (
+            <>
+              {leftIcon}
+              {name}
+              {rightIcon}
+            </>
+          )}
         </OutlineButton>
       );
     }
@@ -91,6 +118,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
           e.stopPropagation();
           onClick?.call(e);
         }}
+        disabled={disabled || loading}
         backgroundColor={backgroundColor}
         color={color}
         borderWidth={borderWidth}
@@ -98,9 +126,17 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         paddingBlock={paddingBlock}
         {...restProps}
       >
-        {leftIcon}
-        {name}
-        {rightIcon}
+        {loading ? (
+          <>
+            <LoadingIcon size={loadingIconSize} color={loadingIconColor} />
+          </>
+        ) : (
+          <>
+            {leftIcon}
+            {name}
+            {rightIcon}
+          </>
+        )}
       </CustomButton>
     );
   },

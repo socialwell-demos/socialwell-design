@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useCallback, useState } from "react";
-import { SelectInputField } from "./styles/inputFieldStyles";
+import { SelectInputField, WithError } from "./styles/inputFieldStyles";
 
 export type SelectOption = {
   label: string;
@@ -33,8 +33,11 @@ export type SelectProps = {
   disabled?: boolean;
   imageSize?: string;
   themeHsl?: number;
+  hasError?: React.ReactNode;
   themeHslSaturation?: string;
+  hideClearButton?: boolean;
   onClear?: () => void;
+  onClick?: () => void;
 } & (SingleSelectProps | MultipleSelectProps);
 
 export const SelectField: React.FC<SelectProps> = ({
@@ -43,11 +46,14 @@ export const SelectField: React.FC<SelectProps> = ({
   value,
   onChange,
   onClear,
+  onClick,
   options,
   disabled = false,
   imageSize = "20px",
   themeHsl = 200,
+  hasError,
   themeHslSaturation = "100%",
+  hideClearButton = false,
 }) => {
   const [query, setQuery] = useState("");
   const [isOpen, setIsOpen] = useState(false);
@@ -145,100 +151,128 @@ export const SelectField: React.FC<SelectProps> = ({
     };
   }, [isOpen, highlightedIndex, options, disabled, selectOptionCallback]);
 
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      const containerRefValue = containerRef.current;
+      if (
+        containerRefValue &&
+        !containerRefValue.contains(event.target as Node)
+      ) {
+        setIsOpen(false);
+      }
+    };
+
+    document.addEventListener("click", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, [containerRef, setIsOpen]);
+
   return (
-    <SelectInputField
-      ref={containerRef}
-      //   onBlur={() => setIsOpen(false)}
-      onClick={() => setIsOpen((prev) => !prev)}
-      tabIndex={0}
-      disabled={disabled}
-      imageSize={imageSize}
-      saturation={themeHslSaturation}
-      themeHsl={themeHsl}
-    >
-      <span className="value">
-        {multiple
-          ? value.map((v) => (
-              <button
-                type="button"
-                key={v.value}
-                onClick={(e) => {
-                  e.stopPropagation();
-                  selectOptionCallback(v);
-                }}
-                className="option-badge"
-              >
-                {v.label}
-                <span className="remove-btn">&times;</span>
-              </button>
-            ))
-          : value?.label}
-        {searchable && (
-          <input
-            type="text"
-            className="query-input"
-            ref={inputRef}
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            onFocus={clearSearchOptions}
-            disabled={disabled}
-          />
-        )}
-      </span>
-      <button
-        type="button"
-        onClick={(e) => {
-          e.stopPropagation();
-          clearOptions();
-          setQuery("");
-          onClear && onClear();
+    <WithError>
+      <SelectInputField
+        ref={containerRef}
+        //   onBlur={() => setIsOpen(false)}
+        onClick={() => {
+          onClick && onClick();
+          setIsOpen((prev) => !prev);
         }}
-        className="clear-btn"
+        tabIndex={0}
+        disabled={disabled}
+        imageSize={imageSize}
+        saturation={themeHslSaturation}
+        themeHsl={themeHsl}
       >
-        &times;
-      </button>
-      <div className="divider"></div>
-      <div className="caret"></div>
-      {!disabled && (
-        <ul className={`options ${isOpen ? "show" : ""}`}>
-          {options
-            .filter((value) =>
-              value.label.toLowerCase().includes(query.toLowerCase()),
-            )
-            .map((option, index) => (
-              <li
-                onClick={(e) => {
-                  e.stopPropagation();
-                  selectOptionCallback(option);
-                  setIsOpen(false);
-                  setQuery("");
-                }}
-                onMouseEnter={() => {
-                  setHighlightedIndex(index);
-                  inputRef.current?.blur();
-                  //   setIsOpen(true);
-                }}
-                key={option.value}
-                className={`option ${
-                  isOptionSelected(option) ? "selected" : ""
-                } ${index === highlightedIndex ? "highlighted" : ""}`}
-              >
-                {option.thumbnail && (
-                  <img
-                    className="thumbnail"
-                    src={option.thumbnail}
-                    alt={option.label}
-                    aria-hidden="true"
-                  />
-                )}
-                {option.label}
-                {option.designation && (
-                  <span className="designation">{option.designation}</span>
-                )}
-              </li>
-            ))}
-        </ul>
-      )}
-    </SelectInputField>
+        <span className="value">
+          {multiple
+            ? value.map((v) => (
+                <button
+                  type="button"
+                  key={v.value}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    selectOptionCallback(v);
+                  }}
+                  className="option-badge"
+                >
+                  {v.label}
+                  <span className="remove-btn">&times;</span>
+                </button>
+              ))
+            : value?.label}
+          {searchable && (
+            <input
+              type="text"
+              className="query-input"
+              ref={inputRef}
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              onFocus={clearSearchOptions}
+              disabled={disabled}
+            />
+          )}
+        </span>
+        {!hideClearButton && (
+          <>
+            <button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                clearOptions();
+                setQuery("");
+                onClear && onClear();
+              }}
+              className="clear-btn"
+            >
+              &times;
+            </button>
+            <div className="divider"></div>
+          </>
+        )}
+        <div className="caret"></div>
+        {!disabled && (
+          <ul className={`options ${isOpen ? "show" : ""}`}>
+            {options
+              .filter((value) =>
+                value.label.toLowerCase().includes(query.toLowerCase()),
+              )
+              .map((option, index) => (
+                <li
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    selectOptionCallback(option);
+                    setIsOpen(false);
+                    setQuery("");
+                  }}
+                  onMouseEnter={() => {
+                    setHighlightedIndex(index);
+                    inputRef.current?.blur();
+                    //   setIsOpen(true);
+                  }}
+                  key={option.value}
+                  className={`option ${
+                    isOptionSelected(option) ? "selected" : ""
+                  } ${index === highlightedIndex ? "highlighted" : ""}`}
+                >
+                  {option.thumbnail && (
+                    <img
+                      className="thumbnail"
+                      src={option.thumbnail}
+                      alt={option.label}
+                      aria-hidden="true"
+                    />
+                  )}
+                  {option.label}
+                  {option.designation && (
+                    <span className="designation">{option.designation}</span>
+                  )}
+                </li>
+              ))}
+          </ul>
+        )}
+      </SelectInputField>
+      {hasError}
+    </WithError>
   );
 };

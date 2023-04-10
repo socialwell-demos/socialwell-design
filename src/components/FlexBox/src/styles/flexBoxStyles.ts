@@ -50,7 +50,7 @@ export interface Props {
     | "unset";
   flex: string;
   flexWrap: "nowrap" | "wrap" | "wrap-reverse" | "unset";
-  flexDirection: "row" | "row-reverse" | "column" | "column-reverse" | "unset";
+  direction: "row" | "row-reverse" | "column" | "column-reverse" | "unset";
 }
 
 export const FlexWrapper = styled.div<Props>`
@@ -65,6 +65,6 @@ export const FlexWrapper = styled.div<Props>`
   align-items: ${(props) => props.alignItems};
   align-content: ${(props) => props.alignContent};
   flex: ${(props) => props.flex};
-  flex-direction: ${(props) => props.flexDirection};
+  flex-direction: ${(props) => props.direction};
   flex-wrap: ${(props) => props.flexWrap};
 `;

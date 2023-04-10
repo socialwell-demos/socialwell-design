@@ -10,6 +10,7 @@ export const MainButton = styled.button<Props>`
   flex-direction: row;
   justify-content: center;
   align-items: center;
+  min-width: 80px;
   gap: 8px;
   width: fit-content;
   padding: 10px ${(props) => (props.size === "md" ? "16px" : "24px")};

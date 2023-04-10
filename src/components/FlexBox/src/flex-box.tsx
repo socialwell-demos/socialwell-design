@@ -52,7 +52,8 @@ export interface FlexProps {
     | "unset";
   flex?: string;
   flexWrap?: "nowrap" | "wrap" | "wrap-reverse" | "unset";
-  flexDirection?: "row" | "row-reverse" | "column" | "column-reverse" | "unset";
+  direction?: "row" | "row-reverse" | "column" | "column-reverse" | "unset";
+  className?: string;
 }
 
 export const Flex: React.FC<FlexProps> = ({
@@ -65,10 +66,11 @@ export const Flex: React.FC<FlexProps> = ({
   alignItems = "unset",
   flex = "unset",
   flexWrap = "unset",
-  flexDirection = "unset",
+  direction = "unset",
   gap = "1rem",
   justifyContent = "unset",
   justifyItems = "unset",
+  className = "",
 }) => {
   return (
     <FlexWrapper
@@ -80,12 +82,13 @@ export const Flex: React.FC<FlexProps> = ({
         alignContent,
         alignItems,
         flex,
-        flexDirection,
+        direction,
         flexWrap,
         gap,
         justifyContent,
         justifyItems,
       }}
+      className={className}
     >
       {children}
     </FlexWrapper>

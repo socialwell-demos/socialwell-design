@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-empty-function */
 import React from "react";
 import { CloseIcon } from "../../../assets";
 import { LinkGroup, LinkWrapper } from "./styles/linkCardStyles";
@@ -11,7 +12,7 @@ export interface LinkPreviewCardProps {
 export const LinkPreviewCard = ({
   link = "",
   title = "",
-  onClose = () => console.log("onClose"),
+  onClose = () => {},
 }: LinkPreviewCardProps) => {
   return (
     <LinkWrapper>

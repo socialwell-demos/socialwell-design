@@ -34,17 +34,17 @@ export const InputWrapper = styled.div<Props>`
   align-items: center;
   gap: 16px;
   background: #ffffff;
-  border: 1px solid #e2e8f0;
+  border: 2px solid #666;
   border-radius: 6px;
 
   color: #a0aec0;
 
   &:hover {
-    border: 1px solid #cbd5e0;
+    border: 2px solid #777;
   }
 
   &:has(${TextInput}:focus) {
-    border: 2px solid #3182ce;
+    border: 2px solid #777;
   }
 
   &:has(${TextInput}:disabled) {
@@ -74,7 +74,8 @@ export const SelectInputField = styled.div<{
   position: relative;
   width: 100%;
   min-height: 1.5em;
-  border: 0.1em solid #e2e8f0;
+  /* border: 0.1em solid #e2e8f0; */
+  border: 2px solid #777;
   display: flex;
   align-items: center;
   gap: 0.5em;

@@ -1,5 +1,6 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { ComponentStory, ComponentMeta } from "@storybook/react";
-import React from "react";
+import React, { useState } from "react";
 
 import { SelectFormControl } from "../src";
 export default {
@@ -18,30 +19,35 @@ const options = [
   { label: "Fifth", value: 5 },
 ];
 
-// More on component templates: https://storybook.js.org/docs/react/writing-stories/introduction#using-args
-const Template: ComponentStory<typeof SelectFormControl> = (args) => (
-  <SelectFormControl {...args} />
-);
+const Template: ComponentStory<typeof SelectFormControl> = (args) => {
+  const [select, setSelect] = useState({ label: "Select", value: "" });
+  return (
+    <SelectFormControl
+      {...args}
+      label="form label"
+      value={select}
+      onChange={(o: any) => setSelect(o as never)}
+      options={options}
+      multiple={false}
+    />
+  );
+};
+
+const MultiTemplate: ComponentStory<typeof SelectFormControl> = (args) => {
+  const [select, setSelect] = useState([options[0]]);
+  return (
+    <SelectFormControl
+      {...args}
+      label="form label"
+      value={select}
+      onChange={(o: any) => setSelect(o as never)}
+      options={options}
+      multiple={true}
+      searchable={true}
+    />
+  );
+};
 
 export const SelectFormWithLabel = Template.bind({});
 
-SelectFormWithLabel.args = {
-  label: "form label",
-  multiple: false,
-  value: { label: "First", value: 1 },
-  onChange: () => console.log("log"),
-  options: options,
-};
-
-export const MultiSelectFormWithLabel = Template.bind({});
-
-MultiSelectFormWithLabel.args = {
-  label: "form label",
-  multiple: true,
-  options: options,
-  value: [
-    { label: "First", value: 1 },
-    { label: "Third", value: 3 },
-  ],
-  onChange: () => console.log("log"),
-};
+export const MultiSelectFormWithLabel = MultiTemplate.bind({});

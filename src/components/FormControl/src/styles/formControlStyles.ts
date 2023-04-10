@@ -30,7 +30,7 @@ export const Input = styled.input<any>`
   width: 100%;
   height: ${(props) => (props.inputSize === "sm" ? "32px" : "40px")};
   background: #ffffff;
-  border: 1px solid #e2e8f0;
+  border: 2px solid #666;
   border-radius: 6px;
   padding: 0px 16px;
   font-weight: 400;
@@ -62,7 +62,8 @@ export const SelectInputField = styled.div<{
   position: relative;
   width: 100%;
   min-height: 1.5em;
-  border: 0.1em solid #e2e8f0;
+  /* border: 0.1em solid #e2e8f0; */
+  border: 2px solid #777;
   display: flex;
   align-items: center;
   gap: 0.5em;
@@ -91,6 +92,7 @@ export const SelectInputField = styled.div<{
     display: flex;
     gap: 0.5em;
     flex-wrap: wrap;
+    align-items: center;
 
     .query-input {
       flex: 1;
@@ -261,7 +263,7 @@ export const Textarea = styled.textarea<any>`
   width: 100%;
   min-height: 100px;
   background: #ffffff;
-  border: 1px solid #e2e8f0;
+  border: 2px solid #666;
   border-radius: 6px;
   padding: 8px 16px;
   font-weight: 400;

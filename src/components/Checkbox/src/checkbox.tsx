@@ -1,9 +1,9 @@
-import React, { forwardRef, useMemo } from "react";
+import React, { forwardRef, ReactNode, useMemo } from "react";
 import { CheckboxInput, Label, Span } from "./styles/checkboxStyles";
 
 export interface CheckboxProps {
   disabled?: boolean;
-  label?: string;
+  label?: string | ReactNode;
   value?: string;
   className?: string;
   checkboxColor?: string;
@@ -30,10 +30,13 @@ export const Checkbox: React.ForwardRefExoticComponent<
   );
 
   return (
-    <Label htmlFor={`${randomLabel}`}>
+    <Label
+      htmlFor={randomLabel}
+      title={typeof label === "object" ? "" : (label as string)}
+    >
       <CheckboxInput
         type="checkbox"
-        id={`${randomLabel}`}
+        id={randomLabel}
         onChange={onChange}
         disabled={disabled}
         className={className}
