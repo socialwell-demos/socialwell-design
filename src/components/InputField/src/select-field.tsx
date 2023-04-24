@@ -30,6 +30,8 @@ type SingleSelectProps = {
 export type SelectProps = {
   options: SelectOption[];
   searchable?: boolean;
+  addFeature?: boolean;
+  addFeatureClick?: () => void;
   disabled?: boolean;
   imageSize?: string;
   themeHsl?: number;
@@ -42,11 +44,13 @@ export type SelectProps = {
 
 export const SelectField: React.FC<SelectProps> = ({
   searchable = false,
+  addFeature = false,
   multiple,
   value,
   onChange,
   onClear,
   onClick,
+  addFeatureClick = () => console.log("add feature"),
   options,
   disabled = false,
   imageSize = "20px",
@@ -233,6 +237,16 @@ export const SelectField: React.FC<SelectProps> = ({
         <div className="caret"></div>
         {!disabled && (
           <ul className={`options ${isOpen ? "show" : ""}`}>
+            {addFeature && query.length > 0 && (
+              <li
+                className="option add-feature-btn"
+                onClick={() => {
+                  addFeatureClick();
+                }}
+              >
+                <span className="add-feature-icon">&times;</span> add {query}
+              </li>
+            )}
             {options
               .filter((value) =>
                 value.label.toLowerCase().includes(query.toLowerCase()),

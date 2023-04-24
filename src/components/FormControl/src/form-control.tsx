@@ -83,6 +83,7 @@ export const FormControl = forwardRef<
               <span
                 style={{
                   color: "red",
+                  fontSize: "1.5rem",
                 }}
               >
                 *
@@ -118,6 +119,7 @@ export const FormControl = forwardRef<
             <span
               style={{
                 color: "red",
+                fontSize: "1.5rem",
               }}
             >
               *
@@ -177,6 +179,8 @@ export type SelectFormControlProps = {
   label: string;
   options: SelectOption[];
   searchable?: boolean;
+  addFeature?: boolean;
+  addFeatureClick?: () => void;
   disabled?: boolean;
   required?: boolean;
   hasError?: ReactNode;
@@ -190,11 +194,13 @@ export type SelectFormControlProps = {
 
 export const SelectFormControl: React.FC<SelectFormControlProps> = ({
   searchable = false,
+  addFeature = false,
   multiple,
   value,
   onChange,
   onClear,
   onClick,
+  addFeatureClick = () => console.log("add feature"),
   options,
   hasError,
   disabled = false,
@@ -320,7 +326,7 @@ export const SelectFormControl: React.FC<SelectFormControlProps> = ({
   }, [containerRef, setIsOpen]);
 
   return (
-    <WithError>
+    <WithError aria-required={required}>
       <SelectWrapper>
         <div>
           <div className="label">{label}</div>
@@ -328,6 +334,7 @@ export const SelectFormControl: React.FC<SelectFormControlProps> = ({
             <span
               style={{
                 color: "red",
+                fontSize: "1.5rem",
               }}
             >
               *
@@ -396,6 +403,16 @@ export const SelectFormControl: React.FC<SelectFormControlProps> = ({
           <div className="caret"></div>
           {!disabled && (
             <ul className={`options ${isOpen ? "show" : ""}`}>
+              {addFeature && query.length > 0 && (
+                <li
+                  className="option add-feature-btn"
+                  onClick={() => {
+                    addFeatureClick();
+                  }}
+                >
+                  <span className="add-feature-icon">&times;</span> add {query}
+                </li>
+              )}
               {options
                 .filter((value) =>
                   value.label.toLowerCase().includes(query.toLowerCase()),

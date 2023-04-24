@@ -6,6 +6,10 @@ export const SwitchInput = styled.input`
   visibility: hidden;
 `;
 
+export const SwitchWrapper = styled.div`
+  display: flex;
+`;
+
 export const SwitchLabel = styled.label<{ labelSize: string }>`
   box-sizing: border-box;
 

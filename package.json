@@ -1,6 +1,6 @@
 {
   "name": "socialwell-design",
-  "version": "1.0.58",
+  "version": "1.0.63",
   "private": false,
   "license": "MIT",
   "main": "dist/cjs/index.js",

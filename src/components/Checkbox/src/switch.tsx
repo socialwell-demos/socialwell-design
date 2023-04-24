@@ -1,5 +1,10 @@
 import React, { useMemo } from "react";
-import { SwitchButton, SwitchInput, SwitchLabel } from "./styles/switchStyles";
+import {
+  SwitchButton,
+  SwitchInput,
+  SwitchLabel,
+  SwitchWrapper,
+} from "./styles/switchStyles";
 
 export interface SwitchProps {
   label?: string;
@@ -22,7 +27,7 @@ export const Switch: React.FC<SwitchProps> = ({
   );
 
   return (
-    <>
+    <SwitchWrapper>
       <SwitchInput
         checked={isChecked}
         value={value}
@@ -33,6 +38,6 @@ export const Switch: React.FC<SwitchProps> = ({
       <SwitchLabel htmlFor={randomLabel} labelSize={size}>
         <SwitchButton btnSize={size} />
       </SwitchLabel>
-    </>
+    </SwitchWrapper>
   );
 };

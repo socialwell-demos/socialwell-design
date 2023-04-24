@@ -267,6 +267,35 @@ export const SelectInputField = styled.div<{
         color: #e2e8f0;
       `}
   }
+
+  .add-feature-btn {
+    text-transform: capitalize;
+    background-color: hsl(
+      ${(props) => props.themeHsl},
+      ${(props) => props.saturation},
+      40%
+    );
+    color: white;
+    padding: 0.5em;
+
+    .add-feature-icon {
+      font-size: 1.3em;
+      rotate: 45deg;
+      color: hsl(
+        ${(props) => props.themeHsl},
+        ${(props) => props.saturation},
+        40%
+      );
+      line-height: 0;
+      background-color: white;
+      border-radius: 100%;
+      width: 1.5em;
+      height: 1.5em;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }
 `;
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

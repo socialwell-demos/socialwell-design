@@ -58,8 +58,8 @@ export interface FlexProps {
 
 export const Flex: React.FC<FlexProps> = ({
   children,
-  width = "100%",
-  height = "100%",
+  width = "auto",
+  height = "auto",
   padding = "0",
   margin = "0",
   alignContent = "unset",
